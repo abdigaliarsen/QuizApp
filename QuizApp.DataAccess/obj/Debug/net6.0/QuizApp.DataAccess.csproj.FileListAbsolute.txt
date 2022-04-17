@@ -1,0 +1,14 @@
+C:\Users\abdig\source\repos\QuizApp\QuizApp.DataAccess\bin\Debug\net6.0\QuizApp.DataAccess.deps.json
+C:\Users\abdig\source\repos\QuizApp\QuizApp.DataAccess\bin\Debug\net6.0\QuizApp.DataAccess.runtimeconfig.json
+C:\Users\abdig\source\repos\QuizApp\QuizApp.DataAccess\bin\Debug\net6.0\QuizApp.DataAccess.dll
+C:\Users\abdig\source\repos\QuizApp\QuizApp.DataAccess\bin\Debug\net6.0\QuizApp.DataAccess.pdb
+C:\Users\abdig\source\repos\QuizApp\QuizApp.DataAccess\obj\Debug\net6.0\QuizApp.DataAccess.csproj.AssemblyReference.cache
+C:\Users\abdig\source\repos\QuizApp\QuizApp.DataAccess\obj\Debug\net6.0\QuizApp.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\abdig\source\repos\QuizApp\QuizApp.DataAccess\obj\Debug\net6.0\QuizApp.DataAccess.AssemblyInfoInputs.cache
+C:\Users\abdig\source\repos\QuizApp\QuizApp.DataAccess\obj\Debug\net6.0\QuizApp.DataAccess.AssemblyInfo.cs
+C:\Users\abdig\source\repos\QuizApp\QuizApp.DataAccess\obj\Debug\net6.0\QuizApp.DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\abdig\source\repos\QuizApp\QuizApp.DataAccess\obj\Debug\net6.0\QuizApp.DataAccess.dll
+C:\Users\abdig\source\repos\QuizApp\QuizApp.DataAccess\obj\Debug\net6.0\refint\QuizApp.DataAccess.dll
+C:\Users\abdig\source\repos\QuizApp\QuizApp.DataAccess\obj\Debug\net6.0\QuizApp.DataAccess.pdb
+C:\Users\abdig\source\repos\QuizApp\QuizApp.DataAccess\obj\Debug\net6.0\QuizApp.DataAccess.genruntimeconfig.cache
+C:\Users\abdig\source\repos\QuizApp\QuizApp.DataAccess\obj\Debug\net6.0\ref\QuizApp.DataAccess.dll

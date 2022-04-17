@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "j/I8K774Tb4egKzTbRrOlPyh3EqXDgZ+7VTsPJlY7HU=",
+  "Source": "QuizApp.WebAPI",
+  "BasePath": "_content/QuizApp.WebAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

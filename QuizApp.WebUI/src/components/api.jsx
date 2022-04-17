@@ -1,0 +1,127 @@
+import axios from "axios"
+
+const baseAddress = 'https://localhost:7049/api';
+const jwtKey = 'jwt';
+
+const getJwt = () => {
+    let tokens = document.cookie;
+    if (tokens)
+        return tokens
+            .split(';')
+            .filter(cookie =>
+                cookie.startsWith(`${jwtKey}=`))[0]
+            .substring(`${jwtKey}=`.length);
+}
+
+export const getQuizzes = async () => {
+    try {
+        const response = await axios.get(`${baseAddress}/quizzes/`);
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export const getQuiz = async id => {
+    try {
+        const response = await axios.get(`${baseAddress}/quizzes/${id}`);
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export const getQuestionsByQuizId = async quizId => {
+    try {
+        const response = await axios.get(`${baseAddress}/questions?quizid=${quizId}`);
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export const getAnswersByQuizId = async quizId => {
+    try {
+        const response = await axios.get(`${baseAddress}/answers?quizid=${quizId}`);
+        return response
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export const login = async loginModel => {
+    try {
+        const response = await axios.post(`${baseAddress}/users/login`, loginModel, {
+            withCredentials: true
+        });
+        if (response.status !== 200)
+            alert(response.status);
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export const register = async registerModel => {
+    try {
+        const response = await axios.post(`${baseAddress}/users/register`, registerModel, {
+            withCredentials: true
+        });
+        if (response.status !== 201)
+            alert(response.status);
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export const logout = async () => {
+    try {
+        const jwt = getJwt();
+        const response = await axios.post(`${baseAddress}/users/logout`, {}, {
+            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        });
+        if (response.status !== 200)
+            alert(response.status);
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export const getCurrentUser = async () => {
+    try {
+        const jwt = getJwt();
+        if (jwt) {
+            const response = await axios.get(`${baseAddress}/users/get-current-user`, {
+                headers: {
+                    Authorization: `Bearer ${jwt}`
+                }
+            });
+            if (response.status !== 200)
+                alert(response.status);
+            return response;
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export const isAuthenticated = async () => {
+    try {
+        const jwt = getJwt();
+        const response = await axios.get(`${baseAddress}/users/is-authenticated`, {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        });
+        if (response.status !== 200)
+            alert(response.status);
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+}

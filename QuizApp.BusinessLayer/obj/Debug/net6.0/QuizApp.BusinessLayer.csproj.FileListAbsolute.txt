@@ -1,0 +1,15 @@
+C:\Users\abdig\source\repos\QuizApp\QuizApp.BusinessLayer\bin\Debug\net6.0\QuizApp.BusinessLayer.deps.json
+C:\Users\abdig\source\repos\QuizApp\QuizApp.BusinessLayer\bin\Debug\net6.0\QuizApp.BusinessLayer.dll
+C:\Users\abdig\source\repos\QuizApp\QuizApp.BusinessLayer\bin\Debug\net6.0\QuizApp.BusinessLayer.pdb
+C:\Users\abdig\source\repos\QuizApp\QuizApp.BusinessLayer\obj\Debug\net6.0\QuizApp.BusinessLayer.csproj.AssemblyReference.cache
+C:\Users\abdig\source\repos\QuizApp\QuizApp.BusinessLayer\obj\Debug\net6.0\QuizApp.BusinessLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\abdig\source\repos\QuizApp\QuizApp.BusinessLayer\obj\Debug\net6.0\QuizApp.BusinessLayer.AssemblyInfoInputs.cache
+C:\Users\abdig\source\repos\QuizApp\QuizApp.BusinessLayer\obj\Debug\net6.0\QuizApp.BusinessLayer.AssemblyInfo.cs
+C:\Users\abdig\source\repos\QuizApp\QuizApp.BusinessLayer\obj\Debug\net6.0\QuizApp.BusinessLayer.csproj.CoreCompileInputs.cache
+C:\Users\abdig\source\repos\QuizApp\QuizApp.BusinessLayer\obj\Debug\net6.0\QuizApp.BusinessLayer.dll
+C:\Users\abdig\source\repos\QuizApp\QuizApp.BusinessLayer\obj\Debug\net6.0\refint\QuizApp.BusinessLayer.dll
+C:\Users\abdig\source\repos\QuizApp\QuizApp.BusinessLayer\obj\Debug\net6.0\QuizApp.BusinessLayer.pdb
+C:\Users\abdig\source\repos\QuizApp\QuizApp.BusinessLayer\obj\Debug\net6.0\ref\QuizApp.BusinessLayer.dll
+C:\Users\abdig\source\repos\QuizApp\QuizApp.BusinessLayer\bin\Debug\net6.0\QuizApp.DataAccess.dll
+C:\Users\abdig\source\repos\QuizApp\QuizApp.BusinessLayer\bin\Debug\net6.0\QuizApp.DataAccess.pdb
+C:\Users\abdig\source\repos\QuizApp\QuizApp.BusinessLayer\obj\Debug\net6.0\QuizApp.BusinessLayer.csproj.CopyComplete
