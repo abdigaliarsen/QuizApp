@@ -23,6 +23,7 @@ export const Layout = () => {
                 getCurrentUser().then(res => setUser(res?.data));
         });
         setModal({ show: false });
+        window.location.reload(false);
     }
 
     const signupUser = e => {
@@ -111,6 +112,7 @@ export const Layout = () => {
                 isAuthenticated().then(res => setIsAuth(res.data))
         });
         setModal({ show: false });
+        window.location.reload(false);
     }
 
     const renderMenu = (isAuth, username) => {
