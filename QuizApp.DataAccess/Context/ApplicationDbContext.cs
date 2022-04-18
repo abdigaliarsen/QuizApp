@@ -14,6 +14,8 @@ namespace QuizApp.DataAccess.Context
 
         public DbSet<Quiz>? Quizzes { get; set; }
 
+        public DbSet<ApplicationUserQuiz>? UsersQuizzes { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
 
@@ -21,14 +23,8 @@ namespace QuizApp.DataAccess.Context
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Quiz>()
-                .HasMany(x => x.CompletedUsers)
-                .WithMany(x => x.CompletedQuizzes);
-
-            builder.Entity<Quiz>()
-                .HasOne(x => x.Creator)
-                .WithMany(x => x.CreatedQuizzes)
-                .HasForeignKey(x => x.CreatorId);
+            builder.Entity<ApplicationUserQuiz>()
+                .HasKey(x => new { x.CompletedQuizzesId, x.CompletedUsersId });
 
             builder.Entity<Quiz>()
                 .HasMany(x => x.Questions)
