@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Container, Modal } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getQuestionsByQuizId, getAnswersByQuizId, setCompletedQuizToCurrentUser } from './api';
-import { useHistory } from 'react-router-dom';
 
 export const Question = () => {
     const [questions, setQuestions] = useState([]);
@@ -14,7 +13,7 @@ export const Question = () => {
     const [submissionModal, setSubmissionModal] = useState(false);
     
     let { quizid } = useParams();
-    let history = useHistory();
+    const navigate = useNavigate();
 
     useEffect(() => {
         getAnswersByQuizId(quizid).then(response => setAnswers(response.data));
@@ -24,7 +23,7 @@ export const Question = () => {
     const submitAnswers = () => {
         setCompletedQuizToCurrentUser(quizid, activeAnswers.filter(answer => answer.isCorrect).length);
         setSubmissionModal(true);
-        history.push(`/quiz/${quizid}`);
+        navigate(`/quiz/${quizid}`);
     }
 
     let prev = curQuestionIndex > 0 ?
