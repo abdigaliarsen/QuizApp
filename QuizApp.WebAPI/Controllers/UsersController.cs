@@ -81,7 +81,7 @@ namespace QuizApp.WebAPI.Controllers
 
         // POST: api/users/set-completed-quiz?quizid=1&correctanswers=4
         [HttpPost("set-completed-quiz")]
-        public async Task<IActionResult> SetCompletedQuizToCurrentUser([FromBody] int quizId, [FromBody] int correctAnswers)
+        public async Task<IActionResult> SetCompletedQuizToCurrentUser([FromQuery] int quizId, [FromQuery] int correctAnswers)
         {
             if (await _userService.IsAuthenticated() == false)
                 return Unauthorized();
