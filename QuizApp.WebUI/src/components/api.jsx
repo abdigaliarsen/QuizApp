@@ -49,6 +49,23 @@ export const getAnswersByQuizId = async quizId => {
     }
 }
 
+export const setCompletedQuizToCurrentUser = async (quizId, correctAnswers) => {
+    try {
+        const jwt = getJwt();
+        const response = await axios.post(`${baseAddress}/users/set-completed-quiz?quizid=${quizId}&correctanswers=${correctAnswers}`,
+            {}, {
+                withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${jwt}`
+        }});
+        if (response.status !== 200)
+            alert(response.status);
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 export const login = async loginModel => {
     try {
         const response = await axios.post(`${baseAddress}/users/login`, loginModel, {
