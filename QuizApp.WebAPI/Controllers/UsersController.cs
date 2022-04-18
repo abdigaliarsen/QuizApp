@@ -114,5 +114,23 @@ namespace QuizApp.WebAPI.Controllers
                 return BadRequest(exception.Message);
             }
         }
+
+        // GET: api/users/get-result-for-current-user
+        [HttpGet("get-result-for-current-user")]
+        public async Task<IActionResult> GetQuizResultForCurrentUser([FromQuery] int quizId)
+        {
+            if (await _userService.IsAuthenticated() == false)
+                return Unauthorized();
+
+            try
+            {
+                int score = await _userService.GetQuizResultForCurrentUser(quizId);
+                return Ok(score);
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
+        }
     }
 }

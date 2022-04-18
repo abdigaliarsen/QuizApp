@@ -217,5 +217,15 @@ namespace QuizApp.BusinessLayer.Services
                 .AnyAsync(x => x.CompletedUsersId == user.Id && x.CompletedQuizzesId == quizId);
             return isCompleted;
         }
+
+        public async Task<int> GetQuizResultForCurrentUser(int quizId)
+        {
+            var user = await GetOriginalCurrentUser();
+            var usersQuizzes = await _context.UsersQuizzes
+                .FirstOrDefaultAsync(x => x.CompletedQuizzesId == quizId && x.CompletedUsersId == user.Id);
+            if (usersQuizzes is null)
+                throw new ArgumentNullException(nameof(quizId));
+            return usersQuizzes.CorrectAnswers;
+        }
     }
 }
