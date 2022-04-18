@@ -85,25 +85,6 @@ export const isQuizCompletedByCurrentUser = async quizId => {
     }
 }
 
-export const getQuizResultForCurrentUser = async quizId => {
-    try {
-        const jwt = getJwt();
-        const response = await axios.get(`${baseAddress}/users/get-result-for-current-user?quizid=${quizId}`,
-            {
-                withCredentials: true,
-                headers: {
-                    Authorization: `Bearer ${jwt}`
-                }
-            });
-        if (response.status !== 200)
-            alert(response.status);
-        return response;
-    }
-    catch (err) {
-        console.error(err);
-    }
-}
-
 export const login = async loginModel => {
     try {
         const response = await axios.post(`${baseAddress}/users/login`, loginModel, {
