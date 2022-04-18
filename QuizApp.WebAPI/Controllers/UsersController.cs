@@ -99,14 +99,14 @@ namespace QuizApp.WebAPI.Controllers
 
         // GET: api/users/is-quiz-completed-by-current-user
         [HttpGet("is-quiz-completed-by-current-user")]
-        public async Task<IActionResult> IsQuizCompletedByCurrentUser([FromQuery] int quizId)
+        public async Task<IActionResult> IsQuizCompletedByCurrentUser([FromQuery] int quizid)
         {
             if (await _userService.IsAuthenticated() == false)
                 return Unauthorized();
 
             try
             {
-                bool isCompleted = await _userService.IsQuizCompletedByCurrentUser(quizId);
+                bool isCompleted = await _userService.IsQuizCompletedByCurrentUser(quizid);
                 return Ok(isCompleted);
             }
             catch (Exception exception)
