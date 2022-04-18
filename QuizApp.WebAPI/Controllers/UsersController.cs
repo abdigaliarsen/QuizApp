@@ -78,5 +78,23 @@ namespace QuizApp.WebAPI.Controllers
         {
             return Ok(await _userService.IsAuthenticated());
         }
+
+        // POST: api/users/set-completed-quiz?quizid=1&correctanswers=4
+        [HttpPost("set-completed-quiz")]
+        public async Task<IActionResult> SetCompletedQuizToCurrentUser([FromBody] int quizId, [FromBody] int correctAnswers)
+        {
+            if (await _userService.IsAuthenticated() == false)
+                return Unauthorized();
+
+            try
+            {
+                await _userService.SetCompletedQuizToCurrentUser(quizId, correctAnswers);
+                return Ok();
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
+        }
     }
 }

@@ -9,6 +9,7 @@ using QuizApp.BusinessLayer.Abstract;
 using QuizApp.BusinessLayer.DTOs;
 using QuizApp.BusinessLayer.Exceptions;
 using QuizApp.DataAccess.Context;
+using QuizApp.DataAccess.Tables.General;
 using QuizApp.DataAccess.Tables.Users;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
@@ -24,6 +25,37 @@ namespace QuizApp.BusinessLayer.Services
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContext;
+
+        private async Task<ApplicationUser> GetOriginalCurrentUser()
+        {
+            _httpContext.HttpContext.Request.Headers.TryGetValue("Authorization", out var auth);
+            if (StringValues.IsNullOrEmpty(auth) || string.IsNullOrEmpty(auth))
+                throw new ArgumentNullException(nameof(auth), "auth header is empty");
+            string jwt = auth[0]["Bearer ".Length..];
+
+            if (string.IsNullOrEmpty(jwt) || jwt == "undefined")
+                throw new ArgumentNullException(nameof(jwt), "jwt is empty");
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            var key = Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]);
+            var claims = tokenHandler.ValidateToken(jwt, new TokenValidationParameters
+            {
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = _configuration["Jwt:ValidIssuer"],
+                ValidateIssuer = true,
+                ValidAudience = _configuration["Jwt:ValidAudience"],
+                ValidateAudience = true,
+                RequireExpirationTime = true,
+            }, out var _);
+
+            if (claims is null)
+                throw new ArgumentNullException(nameof(claims), "Entry token is null");
+
+            var user = await _userManager.FindByIdAsync(claims.FindFirstValue(ClaimTypes.NameIdentifier));
+            return user;
+        }
 
         public UserService(ApplicationDbContext context,
             IMapper mapper, UserManager<ApplicationUser> userManager,
@@ -116,32 +148,7 @@ namespace QuizApp.BusinessLayer.Services
 
         public async Task<User> GetCurrentUser()
         {
-            _httpContext.HttpContext.Request.Headers.TryGetValue("Authorization", out var auth);
-            if (StringValues.IsNullOrEmpty(auth) || string.IsNullOrEmpty(auth))
-                throw new ArgumentNullException(nameof(auth), "auth header is empty");
-            string jwt = auth[0]["Bearer ".Length..];
-
-            if (string.IsNullOrEmpty(jwt) || jwt == "undefined")
-                throw new ArgumentNullException(nameof(jwt), "jwt is empty");
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            var key = Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]);
-            var claims = tokenHandler.ValidateToken(jwt, new TokenValidationParameters
-            {
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = _configuration["Jwt:ValidIssuer"],
-                ValidateIssuer = true,
-                ValidAudience = _configuration["Jwt:ValidAudience"],
-                ValidateAudience = true,
-                RequireExpirationTime = true,
-            }, out var _);
-
-            if (claims is null)
-                throw new ArgumentNullException(nameof(claims), "Entry token is null");
-
-            var user = await _userManager.FindByIdAsync(claims.FindFirstValue(ClaimTypes.NameIdentifier));
+            var user = await GetOriginalCurrentUser();
             var userDto = _mapper.Map<User>(user);
             return userDto;
         }
@@ -182,6 +189,17 @@ namespace QuizApp.BusinessLayer.Services
             {
                 return false;
             }
+        }
+        public async Task SetCompletedQuizToCurrentUser(int quizId, int correctAnswers)
+        {
+            var user = await GetOriginalCurrentUser();
+            await _context.UsersQuizzes.AddAsync(new ApplicationUserQuiz
+            {
+                CompletedQuizzesId = quizId,
+                CompletedUsersId = user.Id,
+                CorrectAnswers = correctAnswers
+            });
+            await _context.SaveChangesAsync();
         }
     }
 }
