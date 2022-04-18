@@ -7,12 +7,12 @@ namespace QuizApp.DataAccess.Tables.Users
     {
         public virtual IEnumerable<Quiz> CreatedQuizzes { get; set; }
 
-        public virtual IEnumerable<Quiz> CompletedQuizzes { get; set; }
+        public virtual IEnumerable<ApplicationUserQuiz> CompletedQuizzes { get; set; }
 
         public ApplicationUser()
         {
             CreatedQuizzes = new List<Quiz>();
-            CompletedQuizzes = new List<Quiz>();
+            CompletedQuizzes = new List<ApplicationUserQuiz>();
         }
     }
 }

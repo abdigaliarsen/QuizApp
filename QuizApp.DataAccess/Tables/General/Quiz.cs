@@ -16,14 +16,14 @@ namespace QuizApp.DataAccess.Tables.General
         [ForeignKey(nameof(CreatorId))]
         public virtual ApplicationUser? Creator { get; set; }
 
-        public IEnumerable<ApplicationUser>? CompletedUsers { get; set; }
+        public IEnumerable<ApplicationUserQuiz>? CompletedUsers { get; set; }
 
         public IEnumerable<Question>? Questions { get; set; }
 
         public Quiz()
         {
             Questions = new List<Question>();
-            CompletedUsers = new List<ApplicationUser>();
+            CompletedUsers = new List<ApplicationUserQuiz>();
         }
     }
 }
