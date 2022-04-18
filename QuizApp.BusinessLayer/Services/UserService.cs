@@ -193,12 +193,20 @@ namespace QuizApp.BusinessLayer.Services
         public async Task SetCompletedQuizToCurrentUser(int quizId, int correctAnswers)
         {
             var user = await GetOriginalCurrentUser();
+
             await _context.UsersQuizzes.AddAsync(new ApplicationUserQuiz
             {
                 CompletedQuizzesId = quizId,
                 CompletedUsersId = user.Id,
                 CorrectAnswers = correctAnswers
             });
+
+            var quiz = await _context.Quizzes.FirstOrDefaultAsync(x => x.Id == quizId);
+            if (quiz is null)
+                throw new ArgumentNullException(nameof(quizId));
+            quiz.Passed++;
+            _context.Quizzes.Update(quiz);
+
             await _context.SaveChangesAsync();
         }
 
