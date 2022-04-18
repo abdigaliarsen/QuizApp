@@ -96,5 +96,23 @@ namespace QuizApp.WebAPI.Controllers
                 return BadRequest(exception.Message);
             }
         }
+
+        // GET: api/users/is-quiz-completed-by-current-user
+        [HttpGet("is-quiz-completed-by-current-user")]
+        public async Task<IActionResult> IsQuizCompletedByCurrentUser([FromQuery] int quizId)
+        {
+            if (await _userService.IsAuthenticated() == false)
+                return Unauthorized();
+
+            try
+            {
+                bool isCompleted = await _userService.IsQuizCompletedByCurrentUser(quizId);
+                return Ok(isCompleted);
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
+        }
     }
 }

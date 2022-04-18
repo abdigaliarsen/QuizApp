@@ -201,5 +201,13 @@ namespace QuizApp.BusinessLayer.Services
             });
             await _context.SaveChangesAsync();
         }
+
+        public async Task<bool> IsQuizCompletedByCurrentUser(int quizId)
+        {
+            var user = await GetOriginalCurrentUser();
+            bool isCompleted = await _context.UsersQuizzes
+                .AnyAsync(x => x.CompletedUsersId == user.Id && x.CompletedQuizzesId == quizId);
+            return isCompleted;
+        }
     }
 }

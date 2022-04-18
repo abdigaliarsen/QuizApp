@@ -15,5 +15,7 @@ namespace QuizApp.BusinessLayer.Abstract
         public void Logout();
 
         Task SetCompletedQuizToCurrentUser(int quizId, int correctAnswers);
+
+        Task<bool> IsQuizCompletedByCurrentUser(int quizId);
     }
 }
