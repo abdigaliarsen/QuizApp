@@ -53,5 +53,16 @@ namespace QuizApp.BusinessLayer.Services
             var quizzesDto = _mapper.Map<IEnumerable<Quiz>>(quizzes);
             return quizzesDto;
         }
+
+        public async Task<IEnumerable<Quiz>> GetPassedQuizzesByUser(string username)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == username);
+            var usersQuizzes = await _context.UsersQuizzes.Where(x => x.CompletedUsersId == user.Id).ToListAsync();
+            var quizzIds = usersQuizzes.Select(x => x.CompletedQuizzesId);
+            List<Quiz> quizzes = new();
+            foreach (var id in quizzIds)
+                quizzes.Add(_mapper.Map<Quiz>(await _context.Quizzes.FirstOrDefaultAsync(x => x.Id == id)));
+            return quizzes;
+        }
     }
 }

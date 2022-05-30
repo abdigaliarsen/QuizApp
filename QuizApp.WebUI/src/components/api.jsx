@@ -58,6 +58,15 @@ export const getCreatedQuizzesByUser = async username => {
     }
 }
 
+export const getPassedQuizzesByUser = async username => {
+    try {
+        const response = await axios.get(`${baseAddress}/quizzes/get-passed-quizzes-by-user?username=${username}`);
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 export const setCompletedQuizToCurrentUser = async (quizId, correctAnswers) => {
     try {
         const jwt = getJwt();

@@ -44,13 +44,28 @@ namespace QuizApp.WebAPI.Controllers
             }
         }
 
-        // GET: /api/quizzes/get-created-quizzes-by-use?username=user01
+        // GET: /api/quizzes/get-created-quizzes-by-user?username=user01
         [HttpGet("get-created-quizzes-by-user")]
         public async Task<IActionResult> GetCreatedQuizzes([FromQuery] string username)
         {
             try
             {
                 var quizzes = await _quizService.GetCreatedQuizzesByUser(username);
+                return Ok(quizzes);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        // GET: /api/quizzes/get-passed-quizzes-by-user?username=user01
+        [HttpGet("get-passed-quizzes-by-user")]
+        public async Task<IActionResult> GetPassedQuizzes([FromQuery] string username)
+        {
+            try
+            {
+                var quizzes = await _quizService.GetPassedQuizzesByUser(username);
                 return Ok(quizzes);
             }
             catch
