@@ -19,8 +19,8 @@ export const Layout = () => {
             password: e.target.password.value
         };
         login(loginModel).finally(() => {
-                isAuthenticated().then(res => setIsAuth(res.data));
-                getCurrentUser().then(res => setUser(res?.data));
+            isAuthenticated().then(res => setIsAuth(res.data));
+            getCurrentUser().then(res => setUser(res?.data));
         });
         setModal({ show: false });
         window.location.reload(false);
@@ -30,6 +30,7 @@ export const Layout = () => {
         e.preventDefault();
         let registerModel = {
             username: e.target.username.value,
+            email: e.target.email.value,
             password: e.target.password.value,
             repeatPassowrd: e.target.repeatPassword.value
         };
@@ -81,6 +82,10 @@ export const Layout = () => {
                                 className="me-2"
                                 name="username" />
                             <FormControl
+                                placeholder="email"
+                                className="me-2 mt-3"
+                                name="email" />
+                            <FormControl
                                 placeholder="password"
                                 className="me-2 mt-3"
                                 name="password"
@@ -99,7 +104,7 @@ export const Layout = () => {
                                 variant="primary"
                                 type="submit"
                             >
-                                Login
+                                Sign up
                             </Button>
                         </Modal.Footer>
                     </Form>
@@ -128,7 +133,7 @@ export const Layout = () => {
         else return (
             <NavDropdown title="Menu" id="notAuthMenu">
                 <NavDropdown.Item onClick={() => setModal({ type: "login", show: true })}>Login</NavDropdown.Item>
-                <NavDropdown.Item onClick={() => setModal({ type: "signup", show: true })}>Sign up</NavDropdown.Item>
+                <NavDropdown.Item onClick={() => setModal({ type: "register", show: true })}>Sign up</NavDropdown.Item>
                 <NavDropdown.Item href="/">Quizzes</NavDropdown.Item>
             </NavDropdown>
         );

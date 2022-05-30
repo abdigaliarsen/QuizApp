@@ -4,7 +4,7 @@ import { Layout } from './components/Layout';
 import { Home } from './components/Home';
 import { Quiz } from './components/Quiz';
 import { Question } from './components/Question';
-import { Profile } from './components/profile';
+import { Profile } from './components/Profile';
 
 export const App = () => {
     return (
@@ -14,7 +14,7 @@ export const App = () => {
                 <Route exact path="/" element={<Home />} />
                 <Route exact path="/quiz/:quizid" element={<Quiz />} />
                 <Route exact path="/quiz/:quizid/questions/" element={<Question />} />
-                <Route exact path="/profile" element={<Profile />} />
+                <Route exact path="/profile/:username" element={<Profile />} />
             </Routes>
         </BrowserRouter>
     );

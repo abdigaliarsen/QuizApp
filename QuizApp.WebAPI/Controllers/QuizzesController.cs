@@ -44,7 +44,7 @@ namespace QuizApp.WebAPI.Controllers
             }
         }
 
-        // GET: /api/quizzes/username=user01
+        // GET: /api/quizzes/get-created-quizzes-by-use?username=user01
         [HttpGet("get-created-quizzes-by-user")]
         public async Task<IActionResult> GetCreatedQuizzes([FromQuery] string username)
         {
