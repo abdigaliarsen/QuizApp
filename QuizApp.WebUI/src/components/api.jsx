@@ -103,6 +103,13 @@ export const isQuizCompletedByCurrentUser = async quizId => {
     }
 }
 
+export const createQuiz = async quiz => {
+    try {
+        const jwt = getJwt();
+        const response = await axios.post(`${baseAddress}`)
+    }
+}
+
 export const login = async loginModel => {
     try {
         const response = await axios.post(`${baseAddress}/users/login`, loginModel, {
