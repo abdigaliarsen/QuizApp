@@ -22,7 +22,7 @@ export const Home = () => {
                         <div className="fw-bold">
                             <Link to={`quiz/${quiz.id}`}>{quiz.title}</Link>
                         </div>
-                        Author: {quiz.author.username}
+                        Author: <Link to={`/profile/${quiz.author.username}`}>{quiz.author.username}</Link>
                     </div>
                     <Badge bg="light">
                         passed: {quiz.passed}
