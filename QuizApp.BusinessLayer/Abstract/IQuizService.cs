@@ -6,5 +6,6 @@ namespace QuizApp.BusinessLayer.Abstract
     {
         Task<IEnumerable<Quiz>> Get();
         Task<Quiz> Get(int id);
+        Task<IEnumerable<Quiz>> GetCreatedQuizzesByUser(string username);
     }
 }

@@ -43,5 +43,20 @@ namespace QuizApp.WebAPI.Controllers
                 return BadRequest(exception.Message);
             }
         }
+
+        // GET: /api/quizzes/username=user01
+        [HttpGet("get-created-quizzes-by-user")]
+        public async Task<IActionResult> GetCreatedQuizzes([FromQuery] string username)
+        {
+            try
+            {
+                var quizzes = await _quizService.GetCreatedQuizzesByUser(username);
+                return Ok(quizzes);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

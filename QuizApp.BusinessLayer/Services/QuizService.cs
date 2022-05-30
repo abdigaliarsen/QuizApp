@@ -25,7 +25,7 @@ namespace QuizApp.BusinessLayer.Services
 
             var quizDto = _mapper.Map<Quiz>(quiz);
 
-            var user = _context.Users.FirstOrDefault(x => x.Id == quizDto.CreatorId);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == quizDto.CreatorId);
             quizDto.Author = _mapper.Map<User>(user);
 
             return quizDto;
@@ -43,6 +43,14 @@ namespace QuizApp.BusinessLayer.Services
                 return q;
             });
 
+            return quizzesDto;
+        }
+
+        public async Task<IEnumerable<Quiz>> GetCreatedQuizzesByUser(string username)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == username);
+            var quizzes = await _context.Quizzes.Where(x => x.CreatorId == user.Id).ToListAsync();
+            var quizzesDto = _mapper.Map<IEnumerable<Quiz>>(quizzes);
             return quizzesDto;
         }
     }
