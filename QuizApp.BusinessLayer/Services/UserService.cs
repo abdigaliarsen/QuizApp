@@ -227,5 +227,12 @@ namespace QuizApp.BusinessLayer.Services
                 throw new ArgumentNullException(nameof(quizId));
             return usersQuizzes.CorrectAnswers;
         }
+
+        public async Task<User> GetUserByUsername(string username)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == username);
+            var userDto = _mapper.Map<User>(user);
+            return userDto;
+        }
     }
 }

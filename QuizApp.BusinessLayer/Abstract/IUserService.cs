@@ -18,5 +18,6 @@ namespace QuizApp.BusinessLayer.Abstract
 
         Task<bool> IsQuizCompletedByCurrentUser(int quizId);
         Task<int> GetQuizResultForCurrentUser(int quizId);
+        Task<User> GetUserByUsername(string username);
     }
 }

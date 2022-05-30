@@ -132,5 +132,20 @@ namespace QuizApp.WebAPI.Controllers
                 return BadRequest(exception.Message);
             }
         }
+
+        // GET: api/users/get-user-by-username?username=user01
+        [HttpGet("get-user-by-username")]
+        public async Task<IActionResult> GetUserByUsername([FromQuery] string username)
+        {
+            try
+            {
+                var user = await _userService.GetUserByUsername(username);
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

@@ -1,16 +1,22 @@
+import { Button } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { Badge, Container, ListGroup } from "react-bootstrap";
-import { getCreatedQuizzesByUser, getCurrentUser, getPassedQuizzesByUser } from "./api";
+import { useParams } from "react-router-dom";
+import { getCreatedQuizzesByUser, getCurrentUser, getPassedQuizzesByUser, getUserByUsername } from "./api";
 
 export const Profile = () => {
+    const [currentUser, setCurrentUser] = useState();
     const [user, setUser] = useState();
     const [createdQuizzes, setCreatedQuizzes] = useState([]);
     const [passedQuizzes, setPassedQuizzes] = useState([]);
 
+    const { username } = useParams();
+
     useEffect(() => {
-        getCurrentUser().then(res => setUser(res?.data));
-        getCreatedQuizzesByUser("user99").then(res => setCreatedQuizzes(res?.data));
-        getPassedQuizzesByUser("user99").then(res => setPassedQuizzes(res?.data));
+        getCurrentUser().then(res => setCurrentUser(res?.data));
+        getUserByUsername(username).then(res => setUser(res?.data));
+        getCreatedQuizzesByUser(username).then(res => setCreatedQuizzes(res?.data));
+        getPassedQuizzesByUser(username).then(res => setPassedQuizzes(res?.data));
     }, []);
 
     const renderCreatedQuizzes = (quizzes) => {
@@ -73,7 +79,21 @@ export const Profile = () => {
         }
     }
 
-    const renderUserView = (user) => {
+    const renderUserView = (user, currentUser) => {
+        if (currentUser) {
+            if (user.username === currentUser.username)
+                return (
+                    <div className="d-flex justify-content-between">
+                        <div>
+                            <div>Username: {user.username}</div>
+                            <div>Email: {user.email}</div>
+                        </div>
+                        <div>
+                            <Button>Create quiz</Button>
+                        </div>
+                    </div>
+                )
+        }
         if (user)
             return (
                 <div>
@@ -86,7 +106,7 @@ export const Profile = () => {
 
     return (
         <Container style={{ marginTop: "100px" }}>
-            <div className="mb-3">{renderUserView(user)}</div>
+            <div className="mb-3">{renderUserView(user, currentUser)}</div>
             <div className="mt-3">{renderPassedQuizzes(passedQuizzes)}</div>
             <div className="mt-3">{renderCreatedQuizzes(createdQuizzes)}</div>
         </Container>

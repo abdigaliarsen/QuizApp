@@ -164,6 +164,15 @@ export const getCurrentUser = async () => {
     }
 }
 
+export const getUserByUsername = async username => {
+    try {
+        const response = await axios.get(`${baseAddress}/users/get-user-by-username?username=${username}`);
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 export const isAuthenticated = async () => {
     try {
         const jwt = getJwt();
