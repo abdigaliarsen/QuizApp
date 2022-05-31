@@ -3,20 +3,20 @@ Fullstack web application implemented on React.js, ASP.NET Core Web API and MSSQ
 
 # Contents
 
-* [Overall Design](#Overal-Design)
-  * [Project Description](##Project-Description)
-  * [Purpose](##Purpose)
-* [Frontend](##Frontend)
-  * [React hooks](##React-hooks)
-  * [Routing](##React-Router)
-  * [Bootstrap](##Bootstrap)
-  * [Cookies](##Cookies)
-* [Backend](##Backed)
-  * [Database](##Database)
-  * [Project Architecture](##Project-Architecture)
-  * [JWT Bearer Token](##Jwt-Bearer-Token)
-  * [Controllers overview](##Controllers-Overview)
-  * [CORS](##CORS)
+* [Overall Design](#overal-design)
+  * [Project Description](##project-description)
+  * [Purpose](##purpose)
+* [Frontend](##frontend)
+  * [React hooks](##react-hooks)
+  * [Routing](##react-router)
+  * [Bootstrap](##bootstrap)
+  * [Cookies](##cookies)
+* [Backend](##backend)
+  * [Database](##database)
+  * [Project Architecture](##project-architecture)
+  * [JWT Bearer Token](##jwt-bearer-token)
+  * [Controllers overview](##controllers-overview)
+  * [CORS](##cors)
 
 # Overal Design
 
