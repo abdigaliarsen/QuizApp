@@ -8,7 +8,6 @@ export const Layout = () => {
     const [user, setUser] = useState({});
 
     useEffect(() => {
-        isAuthenticated().then(res => setIsAuth(res.data));
         getCurrentUser().then(res => setUser(res?.data));
     }, []);
 
@@ -19,11 +18,9 @@ export const Layout = () => {
             password: e.target.password.value
         };
         login(loginModel).finally(() => {
-            isAuthenticated().then(res => setIsAuth(res.data));
             getCurrentUser().then(res => setUser(res?.data));
         });
         setModal({ show: false });
-        window.location.reload(false);
     }
 
     const signupUser = e => {
@@ -112,16 +109,13 @@ export const Layout = () => {
     }
 
     const logoutUser = () => {
-        logout().then(res => {
-            if (res.status === 200)
-                isAuthenticated().then(res => setIsAuth(res.data))
-        });
+        logout().then(() => setUser({}));
         setModal({ show: false });
         window.location.reload(false);
     }
 
-    const renderMenu = (isAuth, username) => {
-        if (isAuth)
+    const renderMenu = (username) => {
+        if (username)
             return (
                 <NavDropdown title="Menu" id="authMenu">
                     <NavDropdown.Item href={`/profile/${username}`}>{username}</NavDropdown.Item>
@@ -159,7 +153,7 @@ export const Layout = () => {
                             />
                             <Button type="submit" variant="outline-success">Search</Button>
                         </Form>
-                        {renderMenu(isAuth, user?.username)}
+                        {renderMenu(user?.username)}
                     </Nav>
                 </Navbar.Collapse>
             </Container>

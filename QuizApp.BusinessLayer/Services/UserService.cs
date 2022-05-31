@@ -166,16 +166,6 @@ namespace QuizApp.BusinessLayer.Services
                 throw new UnauthorizedAccessException();
 
             _httpContext.HttpContext.Response.Cookies.Delete("jwt");
-            _httpContext.HttpContext.Response.Cookies.Append("jwt", jwt,
-                new CookieOptions
-                {
-                    HttpOnly = false,
-                    Expires = DateTimeOffset.MinValue,
-                    IsEssential = true,
-                    SameSite = SameSiteMode.None,
-                    Secure = true
-                }
-            );
         }
 
         public async Task<bool> IsAuthenticated()
@@ -233,6 +223,31 @@ namespace QuizApp.BusinessLayer.Services
             var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == username);
             var userDto = _mapper.Map<User>(user);
             return userDto;
+        }
+
+        public async Task CreateFullQuiz(DTOs.Quiz quizDto)
+        {
+            var quiz = _mapper.Map<DataAccess.Tables.General.Quiz>(quizDto);
+            var user = await GetOriginalCurrentUser();
+            quiz.CreatorId = user.Id;
+            await _context.Quizzes.AddAsync(quiz);
+            await _context.SaveChangesAsync();
+            
+            var questions = _mapper.Map<IEnumerable<DataAccess.Tables.General.Question>>(quizDto.Questions);
+            var quizId = (await _context.Quizzes.OrderBy(x => x.Id).LastOrDefaultAsync()).Id;
+
+            List<DataAccess.Tables.General.Answer> answerList = new();
+            foreach (var question in questions) {
+                question.QuizId = quizId;
+                await _context.Questions.AddAsync(question);
+                await _context.SaveChangesAsync();
+                answerList.AddRange(question.Options);
+                var questionId = (await _context.Questions.OrderBy(x => x.Id).LastOrDefaultAsync()).Id;
+                foreach (var answer in question.Options)
+                    answer.QuestionId = questionId;
+                await _context.Answers.AddRangeAsync(answerList);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

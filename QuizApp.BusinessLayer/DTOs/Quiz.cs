@@ -13,5 +13,7 @@
         public User? Author { get; set; }
 
         public int Passed { get; set; } = 0;
+
+        public List<Question> Questions { get; set; } = new List<Question>();
     }
 }

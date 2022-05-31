@@ -147,5 +147,20 @@ namespace QuizApp.WebAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        // POST: api/users/create-quiz
+        [HttpPost("create-quiz")]
+        public async Task<IActionResult> CreateQuiz([FromBody] Quiz quiz)
+        {
+            try
+            {
+                await _userService.CreateFullQuiz(quiz);
+                return StatusCode(StatusCodes.Status201Created);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

@@ -1,8 +1,8 @@
-import { Button, Form, FormControl, Modal } from "react-bootstrap";
+import { Button, Form, FormCheck, FormControl, Modal } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { Badge, Container, ListGroup } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { getCreatedQuizzesByUser, getCurrentUser, getPassedQuizzesByUser, getUserByUsername } from "./api";
+import { createQuiz, getCreatedQuizzesByUser, getCurrentUser, getPassedQuizzesByUser, getUserByUsername } from "./api";
 
 export const Profile = () => {
     const [currentUser, setCurrentUser] = useState();
@@ -11,7 +11,6 @@ export const Profile = () => {
     const [passedQuizzes, setPassedQuizzes] = useState([]);
     const [modal, setModal] = useState(false);
     const [questions, setQuestions] = useState([]);
-    const [answers, setAnswers] = useState([]);
 
     const { username } = useParams();
 
@@ -82,58 +81,84 @@ export const Profile = () => {
         }
     }
 
-    const createQuiz = e => {
-        console.log(e.target.question0.value);
+    const addQuiz = e => {
+        e.preventDefault();
+        let quiz = {
+            title: e.target.title.value,
+            description: e.target.description.value,
+            questions: questions
+        };
+        createQuiz(quiz);
     }
 
-    const updateQuestionName = (index, name) => {
+    const updateQuestionContent = (index, content) => {
         let qs = [...questions];
         let q = { ...qs[index] };
-        q.name = name;
+        q.content = content;
         qs[index] = q;
         setQuestions(qs);
     }
 
-    const updateAnswerContent = (index, content) => {
-        let as = [...answers];
-        let a = { ...as[index] };
-        a.content = content;
-        as[index] = a;
-        setAnswers(as);
+    const updateQuestionAnswers = (index, answer) => {
+        let qs = [...questions];
+        let q= { ...qs[index] };
+        q.options.push(answer);
+        qs[index] = q;
+        setQuestions(qs);
+    }
+
+    const updateAnswerContent = (q_index, a_index, content) => {
+        let qs = [...questions];
+        let q = { ...qs[q_index] };
+        q.options[a_index].content = content;
+        qs[q_index] = q;
+        setQuestions(qs);
     }
 
     const renderModal = modal => {
         return (
             <Modal show={modal}>
                 <h2>New quiz</h2>
-                <Form onSubmit={e => createQuiz(e)}>
+                <Form onSubmit={e => addQuiz(e)}>
                     <Modal.Body>
                         <FormControl
-                            placeholder="name"
+                            placeholder="title"
                             className="me-2"
-                            name="name" />
+                            name="title" />
                         <FormControl
                             placeholder="description"
                             className="me-2 mt-3"
                             name="description" />
-                        {questions.map((_, q_index) => {
+                        {questions.map((question, q_index) => {
                             return <div className="ml-2">
                                 <FormControl
                                     key={q_index}
-                                    placeholder={`question${q_index}`}
+                                    placeholder={`question content`}
                                     className="me-2 mt-3"
                                     name={`question${q_index}`}
-                                    onChange={e => { updateQuestionName(q_index, e.target.value) }}
+                                    onChange={e => { updateQuestionContent(q_index, e.target.value) }}
                                 />
-                                <Button onClick={() => {setAnswers(answers => [...answers, { questionId: q_index }])}} variant="success" className="mt-2">Add answer</Button>
-                                {answers.filter(a => a.questionId === q_index).map((_, a_index) => {
-                                    return <div className="ml-2">
+                                <Button
+                                    onClick={() => updateQuestionAnswers(q_index, { content: "", isCorrect: false })}
+                                    variant="success"
+                                    className="mt-2"
+                                >
+                                    Add answer
+                                </Button>
+                                {question.options.map((_, a_index) => {
+                                    return <div className="ml-2 d-flex">
                                         <FormControl
-                                            key={a_index}
-                                            placeholder={`answer${q_index}${a_index}`}
-                                            className="me-2 mt-3"
+                                            key={`${q_index}${a_index}`}
+                                            placeholder={`answer content`}
+                                            className="me-2 mt-3 mr-2"
                                             name={`answer${q_index}${a_index}`}
-                                            onChange={e => updateAnswerContent(a_index, e.target.value)}
+                                            onChange={e => updateAnswerContent(q_index, a_index, e.target.value)}
+                                        />
+                                        <Form.Check
+                                            key={a_index}
+                                            inline
+                                            label="correct?"
+                                            type="radio"
                                         />
                                     </div>
                                 })}
@@ -143,11 +168,11 @@ export const Profile = () => {
                     <Modal.Footer>
                         <Button onClick={() => { setModal(false); setQuestions([]); }}>Cancel</Button>
                         <Button
-                            onClick={() => setQuestions(questions => [...questions, {}])}
+                            onClick={() => setQuestions(questions => [...questions, { options: [] }])}
                         >
                             Add question
                         </Button>
-                        {questions.length > 0 ? <Button variant="success" onClick={e => createQuiz(e)}>Create quiz</Button> : <></>}
+                        {questions.length > 0 ? <Button variant="success" type="submit">Create quiz</Button> : <></>}
                     </Modal.Footer>
                 </Form>
             </Modal>

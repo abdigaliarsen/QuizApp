@@ -106,7 +106,17 @@ export const isQuizCompletedByCurrentUser = async quizId => {
 export const createQuiz = async quiz => {
     try {
         const jwt = getJwt();
-        const response = await axios.post(`${baseAddress}`)
+        const response = await axios.post(`${baseAddress}/users/create-quiz`, quiz, {
+            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        });
+        if (response.status !== 201)
+            alert(response.status);
+        return response;
+    } catch (error) {
+        console.error(error);
     }
 }
 

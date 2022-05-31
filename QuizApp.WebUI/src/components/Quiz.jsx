@@ -7,6 +7,7 @@ export const Quiz = () => {
     const [quiz, setQuiz] = useState({});
     const [isAuth, setIsAuth] = useState(false);
     const [isCompleted, setIsCompleted] = useState(false);
+    const [quizResult, setQuizResult] = useState(0);
 
     let { quizid } = useParams();
 
