@@ -103,6 +103,20 @@ export const isQuizCompletedByCurrentUser = async quizId => {
     }
 }
 
+export const getQuizScore = async quizId => {
+    try {
+        const jwt = getJwt();
+        const response = await axios.get(`${baseAddress}/users/get-result-for-current-user?quizid=${quizId}`, {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        });
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 export const createQuiz = async quiz => {
     try {
         const jwt = getJwt();

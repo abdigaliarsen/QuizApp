@@ -115,6 +115,15 @@ export const Profile = () => {
         setQuestions(qs);
     }
 
+    const updateAnswerIsCorrect = (q_index, a_index) => {
+        let qs = [...questions];
+        let q = { ...qs[q_index] };
+        q.options[a_index].isCorrect = !q.options[a_index].isCorrect;
+        qs[q_index] = q;
+        setQuestions(qs);
+        console.log(q.options[a_index]);
+    }
+
     const renderModal = modal => {
         return (
             <Modal show={modal}>
@@ -154,11 +163,12 @@ export const Profile = () => {
                                             name={`answer${q_index}${a_index}`}
                                             onChange={e => updateAnswerContent(q_index, a_index, e.target.value)}
                                         />
-                                        <Form.Check
+                                        <FormCheck
                                             key={a_index}
                                             inline
                                             label="correct?"
-                                            type="radio"
+                                            type="checkbox"
+                                            onChange={() => updateAnswerIsCorrect(q_index, a_index)}
                                         />
                                     </div>
                                 })}

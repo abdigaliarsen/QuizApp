@@ -7,5 +7,7 @@
         public int QuizId { get; set; }
 
         public int CorrectAnswers { get; set; }
+
+        public int MaxScore { get; set; }
     }
 }

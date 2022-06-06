@@ -18,7 +18,7 @@ export const Question = () => {
     useEffect(() => {
         getAnswersByQuizId(quizid).then(response => setAnswers(response.data));
         getQuestionsByQuizId(quizid).then(response => setQuestions(response.data));
-    }, []);
+    }, [quizid]);
 
     const submitAnswers = () => {
         setCompletedQuizToCurrentUser(quizid, activeAnswers.filter(answer => answer.isCorrect).length);
@@ -32,11 +32,11 @@ export const Question = () => {
         </Button>
         : <span></span>
 
-    let next = curQuestionIndex + 1 < questions.length ?
+    let next = curQuestionIndex === questions.length - 1 ?
+        <Button onClick={submitAnswers} variant='danger'>Submit</Button> :
         <Button onClick={() => setCurQuestionIndex(curQuestionIndex + 1)}>
             Next question
         </Button>
-        : <Button onClick={submitAnswers} variant='danger'>Submit</Button>
 
     const getAnswer = e => {
         const answer = answers.find(answer =>

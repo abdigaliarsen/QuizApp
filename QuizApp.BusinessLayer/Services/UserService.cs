@@ -208,14 +208,16 @@ namespace QuizApp.BusinessLayer.Services
             return isCompleted;
         }
 
-        public async Task<int> GetQuizResultForCurrentUser(int quizId)
+        public async Task<UsersQuizzes> GetQuizResultForCurrentUser(int quizId)
         {
             var user = await GetOriginalCurrentUser();
             var usersQuizzes = await _context.UsersQuizzes
                 .FirstOrDefaultAsync(x => x.CompletedQuizzesId == quizId && x.CompletedUsersId == user.Id);
-            if (usersQuizzes is null)
+            var usersQuizzesDto = _mapper.Map<DTOs.UsersQuizzes>(usersQuizzes);
+            usersQuizzesDto.MaxScore = await _context.Questions.CountAsync(x => x.QuizId == quizId);
+            if (usersQuizzesDto is null)
                 throw new ArgumentNullException(nameof(quizId));
-            return usersQuizzes.CorrectAnswers;
+            return usersQuizzesDto;
         }
 
         public async Task<User> GetUserByUsername(string username)
@@ -230,24 +232,11 @@ namespace QuizApp.BusinessLayer.Services
             var quiz = _mapper.Map<DataAccess.Tables.General.Quiz>(quizDto);
             var user = await GetOriginalCurrentUser();
             quiz.CreatorId = user.Id;
-            await _context.Quizzes.AddAsync(quiz);
-            await _context.SaveChangesAsync();
-            
-            var questions = _mapper.Map<IEnumerable<DataAccess.Tables.General.Question>>(quizDto.Questions);
-            var quizId = (await _context.Quizzes.OrderBy(x => x.Id).LastOrDefaultAsync()).Id;
 
-            List<DataAccess.Tables.General.Answer> answerList = new();
-            foreach (var question in questions) {
-                question.QuizId = quizId;
-                await _context.Questions.AddAsync(question);
-                await _context.SaveChangesAsync();
-                answerList.AddRange(question.Options);
-                var questionId = (await _context.Questions.OrderBy(x => x.Id).LastOrDefaultAsync()).Id;
-                foreach (var answer in question.Options)
-                    answer.QuestionId = questionId;
-                await _context.Answers.AddRangeAsync(answerList);
-                await _context.SaveChangesAsync();
-            }
+            for (int i = 0; i < quizDto.Questions.Count(); i++)
+                quiz.Questions.ElementAt(i).Options = _mapper.Map<IEnumerable<DataAccess.Tables.General.Answer>>(quizDto.Questions[i].Options);
+            await _context.AddAsync(quiz);
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Container, Alert } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
-import { getQuiz, isAuthenticated, isQuizCompletedByCurrentUser } from './api';
+import { getQuiz, getQuizScore, isAuthenticated, isQuizCompletedByCurrentUser } from './api';
 
 export const Quiz = () => {
     const [quiz, setQuiz] = useState({});
     const [isAuth, setIsAuth] = useState(false);
     const [isCompleted, setIsCompleted] = useState(false);
-    const [quizResult, setQuizResult] = useState(0);
+    const [quizResult, setQuizResult] = useState({ maxScore: 0, correctAnswers: 0 });
 
     let { quizid } = useParams();
 
@@ -15,7 +15,12 @@ export const Quiz = () => {
         getQuiz(quizid).then(res => setQuiz(res.data));
         isAuthenticated().then(res => setIsAuth(res.data));
         isQuizCompletedByCurrentUser(quizid).then(res => setIsCompleted(res.data));
-    }, []);
+    }, [quizid]);
+
+    useEffect(() => {
+        if (isCompleted === true)
+            getQuizScore(quizid).then(res => setQuizResult(res.data));
+    }, [quizid, isCompleted])
 
     let quizAccess = <></>;
     if (isAuth === false)
@@ -25,7 +30,7 @@ export const Quiz = () => {
         </Alert>;
     else if (isCompleted === true)
         quizAccess = <Alert variant="info">
-            <Alert.Heading>You have already passed this quiz..</Alert.Heading>
+            <Alert.Heading>You have already passed this quiz for {`${quizResult.correctAnswers}`} out of {`${quizResult.maxScore}`}</Alert.Heading>
             <p>You cannot repass the quiz by yourself. To do so, please, contant the administrators.</p>
         </Alert>;
     else quizAccess = <Link to='questions'>Start Quiz</Link>
