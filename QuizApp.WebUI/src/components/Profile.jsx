@@ -128,7 +128,9 @@ export const Profile = () => {
     const renderModal = modal => {
         return (
             <Modal show={modal}>
-                <h2>New quiz</h2>
+                <Modal.Header>
+                    <h2>Create quiz</h2>
+                </Modal.Header>
                 <Form onSubmit={e => addQuiz(e)}>
                     <Modal.Body>
                         <FormControl

@@ -41,7 +41,9 @@ export const Layout = (props) => {
         if (modal.type === "login")
             return (
                 <Modal show={modal.show} onHide={() => setModal({ show: false })}>
-                    <h2>Login</h2>
+                    <Modal.Header>
+                        <h2>Login</h2>
+                    </Modal.Header>
                     <Form onSubmit={e => loginUser(e)}>
                         <Modal.Body>
                             <FormControl
@@ -70,7 +72,9 @@ export const Layout = (props) => {
         else if (modal.type === "register")
             return (
                 <Modal show={modal.show} onHide={() => setModal({ show: false })}>
-                    <h2>Sign up</h2>
+                    <Modal.Header>
+                        <h2>Sign up</h2>
+                    </Modal.Header>
                     <Form onSubmit={e => signupUser(e)}>
                         <Modal.Body>
                             <FormControl
