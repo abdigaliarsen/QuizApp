@@ -3,15 +3,20 @@ import { Container, ListGroup, Badge } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getQuizzes } from './api';
 
-export const Home = () => {
+export const Home = (props) => {
     const [quizzes, setQuizzes] = useState([]);
+    const [query, setQuery] = useState('');
 
     useEffect(() => {
         getQuizzes().then(res => setQuizzes(res.data));
     }, []);
 
+    useEffect(() => {
+        setQuery(props.query);
+    }, [props.query]);
+
     const renderQuizzes = quizzes => {
-        let quizzesMarkUp = quizzes.map(quiz => {
+        let quizzesMarkUp = quizzes.filter(quiz => quiz.title.toLowerCase().includes(query.toLowerCase())).map(quiz => {
             return (
                 <ListGroup.Item
                     key={quiz.id}

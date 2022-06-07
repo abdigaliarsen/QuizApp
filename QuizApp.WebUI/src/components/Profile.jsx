@@ -89,6 +89,7 @@ export const Profile = () => {
             questions: questions
         };
         createQuiz(quiz);
+        window.location.reload();
     }
 
     const updateQuestionContent = (index, content) => {

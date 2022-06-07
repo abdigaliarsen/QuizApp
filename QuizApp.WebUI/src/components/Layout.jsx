@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Container, Form, Button, Navbar, Nav, FormControl, Modal, NavDropdown } from "react-bootstrap";
-import { login, register, logout, getCurrentUser, isAuthenticated } from "./api";
+import { login, register, logout, getCurrentUser } from "./api";
 
-export const Layout = () => {
+export const Layout = (props) => {
     const [modal, setModal] = useState({ show: false, type: "" });
-    const [isAuth, setIsAuth] = useState(false);
     const [user, setUser] = useState({});
 
     useEffect(() => {
@@ -133,6 +132,11 @@ export const Layout = () => {
         );
     }
 
+    const filterQuizzes = () => {
+        const form = document.getElementById('search-form');
+        props.setQuery(form.value);
+    }
+
     return (
         <Navbar fixed="top" bg="light" expand="lg">
             <Container fluid>
@@ -143,15 +147,16 @@ export const Layout = () => {
                         style={{ maxHeight: '100px' }}
                         navbarScroll
                     >
-                        <Form className="d-flex" onSubmit={e => console.log(e.target.search.value)}>
+                        <Form className="d-flex">
                             <FormControl
+                                id="search-form"
                                 type="search"
                                 placeholder="Search"
                                 className="me-2"
                                 aria-label="Search"
                                 name="search"
                             />
-                            <Button type="submit" variant="outline-success">Search</Button>
+                            <Button onClick={() => filterQuizzes()} variant="outline-success">Search</Button>
                         </Form>
                         {renderMenu(user?.username)}
                     </Nav>
