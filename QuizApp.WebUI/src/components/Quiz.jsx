@@ -25,21 +25,21 @@ export const Quiz = () => {
     let quizAccess = <></>;
     if (isAuth === false)
         quizAccess = <Alert variant="primary">
-            <Alert.Heading>You aren't authorized!</Alert.Heading>
-            <p>You cannot start quiz if you aren't authorized. You can Login or create a new account by clicking on menu dropdown on the top right angle!</p>
+            <Alert.Heading>Вы не вошли в систему!</Alert.Heading>
+            <p>Вам необходимо авторизоваться чтобы сдать текущий тест. Пожалуйста, нажмите на кнопку "Войти" в выпадающем списке Меню сверху справа страницы.</p>
         </Alert>;
     else if (isCompleted === true)
         quizAccess = <Alert variant="info">
-            <Alert.Heading>You have already passed this quiz for {`${quizResult.correctAnswers}`} out of {`${quizResult.maxScore}`}</Alert.Heading>
-            <p>You cannot repass the quiz by yourself. To do so, please, contant the administrators.</p>
+            <Alert.Heading>Вы уже сдали данный тест. Ваш результат: {`${quizResult.correctAnswers}`}/{`${quizResult.maxScore}`}</Alert.Heading>
+            <p>Вы не можете сдать текущий тест повторно. Чтобы обновить доступ, пожалуйста, обратитесь к администратору.</p>
         </Alert>;
-    else quizAccess = <Link to='questions'>Start Quiz</Link>
+    else quizAccess = <Link to='questions'>Начать квиз</Link>
 
     return (
         <Container style={{ marginTop: "100px" }}>
-            <p>Title:       {quiz.title}</p>
-            <p>Description: {quiz.description}</p>
-            <p>Passed:      {quiz.passed}</p>
+            <p>Название:       {quiz.title}</p>
+            <p>Описание: {quiz.description}</p>
+            <p>Прошло:      {quiz.passed}</p>
             {quizAccess}
         </Container>
     );

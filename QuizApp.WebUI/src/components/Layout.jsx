@@ -42,29 +42,29 @@ export const Layout = (props) => {
             return (
                 <Modal show={modal.show} onHide={() => setModal({ show: false })}>
                     <Modal.Header>
-                        <h2>Login</h2>
+                        <h2>Авторизация</h2>
                     </Modal.Header>
                     <Form onSubmit={e => loginUser(e)}>
                         <Modal.Body>
                             <FormControl
-                                placeholder="username"
+                                placeholder="Имя"
                                 className="me-2"
                                 name="username" />
                             <FormControl
-                                placeholder="password"
+                                placeholder="Пароль"
                                 className="me-2 mt-3"
                                 name="password"
                                 type="password" />
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={() => setModal({ show: false })}>
-                                Close
+                                Закрыть
                             </Button>
                             <Button
                                 variant="primary"
                                 type="submit"
                             >
-                                Login
+                                Войти
                             </Button>
                         </Modal.Footer>
                     </Form>
@@ -73,38 +73,38 @@ export const Layout = (props) => {
             return (
                 <Modal show={modal.show} onHide={() => setModal({ show: false })}>
                     <Modal.Header>
-                        <h2>Sign up</h2>
+                        <h2>Регистрация</h2>
                     </Modal.Header>
                     <Form onSubmit={e => signupUser(e)}>
                         <Modal.Body>
                             <FormControl
-                                placeholder="username"
+                                placeholder="Имя"
                                 className="me-2"
                                 name="username" />
                             <FormControl
-                                placeholder="email"
+                                placeholder="Почта"
                                 className="me-2 mt-3"
                                 name="email" />
                             <FormControl
-                                placeholder="password"
+                                placeholder="Пароль"
                                 className="me-2 mt-3"
                                 name="password"
                                 type="password" />
                             <FormControl
-                                placeholder="repeat password"
+                                placeholder="Повторите пароль"
                                 className="me-2 mt-3"
                                 name="repeatPassword"
                                 type="password" />
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={() => setModal({ show: false })}>
-                                Close
+                                Закрыть
                             </Button>
                             <Button
                                 variant="primary"
                                 type="submit"
                             >
-                                Sign up
+                                Зарегистрироваться
                             </Button>
                         </Modal.Footer>
                     </Form>
@@ -120,18 +120,18 @@ export const Layout = (props) => {
     const renderMenu = (username) => {
         if (username)
             return (
-                <NavDropdown title="Menu" id="authMenu">
+                <NavDropdown title="Меню" id="authMenu">
                     <NavDropdown.Item href={`/profile/${username}`}>{username}</NavDropdown.Item>
-                    <NavDropdown.Item href="/">Quizzes</NavDropdown.Item>
+                    <NavDropdown.Item href="/">Квизы</NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item onClick={() => logoutUser()}>Exit</NavDropdown.Item>
+                    <NavDropdown.Item onClick={() => logoutUser()}>Выход</NavDropdown.Item>
                 </NavDropdown>
             );
         else return (
-            <NavDropdown title="Menu" id="notAuthMenu">
-                <NavDropdown.Item onClick={() => setModal({ type: "login", show: true })}>Login</NavDropdown.Item>
-                <NavDropdown.Item onClick={() => setModal({ type: "register", show: true })}>Sign up</NavDropdown.Item>
-                <NavDropdown.Item href="/">Quizzes</NavDropdown.Item>
+            <NavDropdown title="Меню" id="notAuthMenu">
+                <NavDropdown.Item onClick={() => setModal({ type: "login", show: true })}>Войти</NavDropdown.Item>
+                <NavDropdown.Item onClick={() => setModal({ type: "register", show: true })}>Регистрация</NavDropdown.Item>
+                <NavDropdown.Item href="/">Квизы</NavDropdown.Item>
             </NavDropdown>
         );
     }
@@ -144,25 +144,25 @@ export const Layout = (props) => {
     return (
         <Navbar fixed="top" bg="light" expand="lg">
             <Container fluid>
-                <Navbar.Brand href="/">Home</Navbar.Brand>
+                <Navbar.Brand href="/">Главная страница</Navbar.Brand>
                 <Navbar.Collapse id="navbarScroll" className="d-flex justify-content-end">
                     <Nav
                         className="me-auto my-2 my-lg-0"
                         style={{ maxHeight: '100px' }}
                         navbarScroll
                     >
+                        {renderMenu(user?.username)}
                         <Form className="d-flex">
                             <FormControl
                                 id="search-form"
                                 type="search"
-                                placeholder="Search"
-                                className="me-2"
+                                placeholder="Поиск"
+                                className="me-2 ml-2"
                                 aria-label="Search"
                                 name="search"
                             />
-                            <Button onClick={() => filterQuizzes()} variant="outline-success">Search</Button>
+                            <Button onClick={() => filterQuizzes()} variant="outline-success">Поиск</Button>
                         </Form>
-                        {renderMenu(user?.username)}
                     </Nav>
                 </Navbar.Collapse>
             </Container>

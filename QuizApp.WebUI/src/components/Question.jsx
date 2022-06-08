@@ -28,14 +28,14 @@ export const Question = () => {
 
     let prev = curQuestionIndex > 0 ?
         <Button onClick={() => setCurQuestionIndex(curQuestionIndex - 1)}>
-            Previous question
+            Назад
         </Button>
         : <span></span>
 
     let next = curQuestionIndex === questions.length - 1 ?
-        <Button onClick={submitAnswers} variant='danger'>Submit</Button> :
+        <Button onClick={submitAnswers} variant='danger'>Завершить</Button> :
         <Button onClick={() => setCurQuestionIndex(curQuestionIndex + 1)}>
-            Next question
+            Вперед
         </Button>
 
     const getAnswer = e => {

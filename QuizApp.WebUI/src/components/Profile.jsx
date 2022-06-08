@@ -19,7 +19,7 @@ export const Profile = () => {
         getUserByUsername(username).then(res => setUser(res.data));
         getCreatedQuizzesByUser(username).then(res => setCreatedQuizzes(res?.data));
         getPassedQuizzesByUser(username).then(res => setPassedQuizzes(res?.data));
-    }, []);
+    }, [username]);
 
     const renderCreatedQuizzes = (quizzes) => {
         if (quizzes.length !== 0) {
@@ -34,15 +34,15 @@ export const Profile = () => {
                             <div className="fw-bold">
                                 {quiz.title}
                             </div>
-                            Author: {"user01"}
+                            Автор: {user.username}
                         </div>
                         <Badge bg="light">
-                            passed: {quiz.passed}
+                            Прошло: {quiz.passed}
                         </Badge>
                     </ListGroup.Item>)
             });
             return (<>
-                <h3>Created Quizzes:</h3>
+                <h3>Созданные квизы:</h3>
                 <ListGroup>
                     {quizzesMarkUp}
                 </ListGroup>
@@ -64,15 +64,15 @@ export const Profile = () => {
                             <div className="fw-bold">
                                 {quiz.title}
                             </div>
-                            Author: {"user01"}
+                            Автор: {user.username}
                         </div>
                         <Badge bg="light">
-                            passed: {quiz.passed}
+                            Прошло: {quiz.passed}
                         </Badge>
                     </ListGroup.Item>)
             });
             return (<>
-                <h3>Passed Quizzes:</h3>
+                <h3>Прошедшие квизы:</h3>
                 <ListGroup>
                     {quizzesMarkUp}
                 </ListGroup>
@@ -122,30 +122,29 @@ export const Profile = () => {
         q.options[a_index].isCorrect = !q.options[a_index].isCorrect;
         qs[q_index] = q;
         setQuestions(qs);
-        console.log(q.options[a_index]);
     }
 
     const renderModal = modal => {
         return (
             <Modal show={modal}>
                 <Modal.Header>
-                    <h2>Create quiz</h2>
+                    <h2>Создать квиз</h2>
                 </Modal.Header>
                 <Form onSubmit={e => addQuiz(e)}>
                     <Modal.Body>
                         <FormControl
-                            placeholder="title"
+                            placeholder="Название"
                             className="me-2"
                             name="title" />
                         <FormControl
-                            placeholder="description"
+                            placeholder="Описание"
                             className="me-2 mt-3"
                             name="description" />
                         {questions.map((question, q_index) => {
                             return <div className="ml-2">
                                 <FormControl
                                     key={q_index}
-                                    placeholder={`question content`}
+                                    placeholder="Вопрос"
                                     className="me-2 mt-3"
                                     name={`question${q_index}`}
                                     onChange={e => { updateQuestionContent(q_index, e.target.value) }}
@@ -155,13 +154,13 @@ export const Profile = () => {
                                     variant="success"
                                     className="mt-2"
                                 >
-                                    Add answer
+                                    Добавить ответ
                                 </Button>
                                 {question.options.map((_, a_index) => {
                                     return <div className="ml-2 d-flex">
                                         <FormControl
                                             key={`${q_index}${a_index}`}
-                                            placeholder={`answer content`}
+                                            placeholder="Ответ"
                                             className="me-2 mt-3 mr-2"
                                             name={`answer${q_index}${a_index}`}
                                             onChange={e => updateAnswerContent(q_index, a_index, e.target.value)}
@@ -169,7 +168,7 @@ export const Profile = () => {
                                         <FormCheck
                                             key={a_index}
                                             inline
-                                            label="correct?"
+                                            label="правильно?"
                                             type="checkbox"
                                             onChange={() => updateAnswerIsCorrect(q_index, a_index)}
                                         />
@@ -179,13 +178,13 @@ export const Profile = () => {
                         })}
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={() => { setModal(false); setQuestions([]); }}>Cancel</Button>
+                        <Button onClick={() => { setModal(false); setQuestions([]); }}>Отмена</Button>
                         <Button
                             onClick={() => setQuestions(questions => [...questions, { options: [] }])}
                         >
-                            Add question
+                            Добавить вопрос
                         </Button>
-                        {questions.length > 0 ? <Button variant="success" type="submit">Create quiz</Button> : <></>}
+                        {questions.length > 0 ? <Button variant="success" type="submit">Создать квиз</Button> : <></>}
                     </Modal.Footer>
                 </Form>
             </Modal>
@@ -198,22 +197,22 @@ export const Profile = () => {
                 return (
                     <div className="d-flex justify-content-between">
                         <div>
-                            <div>Username: {user.username}</div>
-                            <div>{user.email ? `Email: ${user.email}` : ""}</div>
+                            <div>Имя: {user.username}</div>
+                            <div>{user.email ? `Почта: ${user.email}` : ""}</div>
                         </div>
                         <div>
-                            <Button onClick={() => setModal(true)}>Create quiz</Button>
+                            <Button onClick={() => setModal(true)}>Создать квиз</Button>
                         </div>
                     </div>
                 )
             if (user)
                 return (
                     <div>
-                        <div>Username: {user.username}</div>
-                        <div>{user.email ? `Email: ${user.email}` : ""}</div>
+                        <div>Имя: {user.username}</div>
+                        <div>{user.email ? `Почта: ${user.email}` : ""}</div>
                     </div>
                 );
-            return <div>Nothing to show</div>
+            return <div>Пусто...</div>
         }
     }
 
