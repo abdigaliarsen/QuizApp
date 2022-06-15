@@ -73,5 +73,35 @@ namespace QuizApp.WebAPI.Controllers
                 return BadRequest();
             }
         }
+
+        // GET: /api/quizzes/get-passed-users-by-quizid?quizid=1
+        [HttpGet("get-passed-users-by-quizid")]
+        public async Task<IActionResult> GetPassedUsers([FromQuery] int quizid)
+        {
+            try
+            {
+                var quizzes = await _quizService.GetPassedUsersByQuiz(quizid);
+                return Ok(quizzes);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        // GET: /api/quizzes/get-result-by-username?username=user01&quizid=1
+        [HttpGet("get-result-by-username")]
+        public async Task<IActionResult> GetResultByUsername([FromQuery] string username, [FromQuery] int quizid)
+        {
+            try
+            {
+                var result = await _quizService.GetResultByUsername(username, quizid);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

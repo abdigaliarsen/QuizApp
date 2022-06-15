@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, ListGroup, Badge } from 'react-bootstrap';
+import { Container, ListGroup, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getQuizzes } from './api';
 
@@ -23,19 +23,23 @@ export const Quizzes = (props) => {
                 {quizzes.map(quiz => {
                     return (
                         <ListGroup.Item
+                            style={{ fontFamily: 'Inter', fontWeight: 400 }}
                             key={quiz.id}
                             as="li"
                             className="d-flex justify-content-between align-items-start"
                         >
-                            <div className="ms-2 me-auto">
+                            <div className="ms-2 me-auto w-25">
                                 <div className="fw-bold">
-                                    <Link to={`quiz/${quiz.id}`}>{quiz.title}</Link>
+                                    {quiz.title}
                                 </div>
-                                Author: <Link to={`/profile/${quiz.author.username}`}>{quiz.author.username}</Link>
+                                <div className="d-flex justify-content-between">
+                                    <div>Автор: <Link to={`/profile/${quiz.author.username}`}>{quiz.author.username}</Link></div>
+                                    <div>Прошло: {quiz.passed}</div>
+                                </div>
                             </div>
-                            <Badge bg="light">
-                                passed: {quiz.passed}
-                            </Badge>
+                            <Link to={`quiz/${quiz.id}`}>
+                                <Button style={{ backgroundColor: "#ECE1E1", border: 0, color: "black" }}>Начать</Button>
+                            </Link>
                         </ListGroup.Item>)
                 })}
             </ListGroup>

@@ -9,21 +9,35 @@ export const Question = () => {
 
     const [answers, setAnswers] = useState([]);
     const [activeAnswers, setActiveAnswers] = useState([]);
-    
+
     const [submissionModal, setSubmissionModal] = useState(false);
-    
+
     let { quizid } = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
-        getAnswersByQuizId(quizid).then(response => setAnswers(response.data));
-        getQuestionsByQuizId(quizid).then(response => setQuestions(response.data));
+        getAnswersByQuizId(quizid).then(response => setAnswers(shuffle(response.data)));
+        getQuestionsByQuizId(quizid).then(response => setQuestions(shuffle(response.data)));
     }, [quizid]);
 
     const submitAnswers = () => {
         setCompletedQuizToCurrentUser(quizid, activeAnswers.filter(answer => answer.isCorrect).length);
         setSubmissionModal(true);
         navigate(`/quiz/${quizid}`);
+    }
+
+    const shuffle = array => {
+        let cur = array.length, randomIndex;
+
+        while (cur != 0) {
+            randomIndex = Math.floor(Math.random() * cur);
+            cur--;
+            
+            [array[cur], array[randomIndex]] = [
+                array[randomIndex], array[cur]];
+        }
+
+        return array;
     }
 
     let prev = curQuestionIndex > 0 ?

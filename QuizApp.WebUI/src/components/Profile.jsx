@@ -1,7 +1,7 @@
 import { Button, Form, FormCheck, FormControl, Modal } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { Badge, Container, ListGroup } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { createQuiz, getCreatedQuizzesByUser, getCurrentUser, getPassedQuizzesByUser, getUserByUsername } from "./api";
 
 export const Profile = () => {
@@ -22,63 +22,75 @@ export const Profile = () => {
     }, [username]);
 
     const renderCreatedQuizzes = (quizzes) => {
-        if (quizzes.length !== 0) {
-            let quizzesMarkUp = quizzes.map((quiz, index) => {
-                return (
-                    <ListGroup.Item
-                        key={index}
-                        as="li"
-                        className="d-flex justify-content-between align-items-start"
-                    >
-                        <div className="ms-2 me-auto">
-                            <div className="fw-bold">
-                                {quiz.title}
-                            </div>
-                            Автор: {user.username}
-                        </div>
-                        <Badge bg="light">
-                            Прошло: {quiz.passed}
-                        </Badge>
-                    </ListGroup.Item>)
-            });
+        if (quizzes.length === 0)
             return (<>
                 <h3>Созданные квизы:</h3>
-                <ListGroup>
-                    {quizzesMarkUp}
-                </ListGroup>
-            </>
-            );
-        }
+                <p>Пусто...</p>
+            </>)
+        let quizzesMarkUp = quizzes.map((quiz, index) => {
+            return (
+                <ListGroup.Item
+                    key={index}
+                    as="li"
+                    style={{ fontFamily: 'Inter', fontWeight: 400 }}
+                    className="d-flex justify-content-between align-items-start"
+                >
+                    <div className="ms-2 me-auto w-25">
+                        <div className="fw-bold">
+                            {quiz.title}
+                        </div>
+                        <div className="d-flex justify-content-between">
+                            <div>Автор: <Link to={`/profile/${quiz.author.username}`}>{quiz.author.username}</Link></div>
+                            <div>Прошло: {quiz.passed}</div>
+                        </div>
+                    </div>
+                    <div>
+                        <Link to={`/quiz/${quiz.id}/passedusers/`}>Посмотреть результаты квиза</Link>
+                    </div>
+                </ListGroup.Item>)
+        });
+        return (<>
+            <h3>Созданные квизы:</h3>
+            <ListGroup>
+                {quizzesMarkUp}
+            </ListGroup>
+        </>
+        );
     }
 
     const renderPassedQuizzes = (quizzes) => {
-        if (quizzes.length !== 0) {
-            let quizzesMarkUp = quizzes.map((quiz, index) => {
-                return (
-                    <ListGroup.Item
-                        key={index}
-                        as="li"
-                        className="d-flex justify-content-between align-items-start"
-                    >
-                        <div className="ms-2 me-auto">
-                            <div className="fw-bold">
-                                {quiz.title}
-                            </div>
-                            Автор: {user.username}
-                        </div>
-                        <Badge bg="light">
-                            Прошло: {quiz.passed}
-                        </Badge>
-                    </ListGroup.Item>)
-            });
+        if (quizzes.length === 0)
             return (<>
                 <h3>Прошедшие квизы:</h3>
-                <ListGroup>
-                    {quizzesMarkUp}
-                </ListGroup>
-            </>
-            );
-        }
+                <p>Пусто...</p>
+            </>)
+
+        let quizzesMarkUp = quizzes.map((quiz, index) => {
+            return (
+                <ListGroup.Item
+                    key={index}
+                    as="li"
+                    style={{ fontFamily: 'Inter', fontWeight: 400 }}
+                    className="d-flex justify-content-between align-items-start"
+                >
+                    <div className="ms-2 me-auto w-25">
+                        <div className="fw-bold">
+                            {quiz.title}
+                        </div>
+                        <div className="d-flex justify-content-between">
+                            <div>Автор: <Link to={`/profile/${quiz.author.username}`}>{quiz.author.username}</Link></div>
+                            <div>Прошло: {quiz.passed}</div>
+                        </div>
+                    </div>
+                </ListGroup.Item>)
+        });
+        return (<>
+            <h3>Прошедшие квизы:</h3>
+            <ListGroup>
+                {quizzesMarkUp}
+            </ListGroup>
+        </>
+        );
     }
 
     const addQuiz = e => {
@@ -102,9 +114,17 @@ export const Profile = () => {
 
     const updateQuestionAnswers = (index, answer) => {
         let qs = [...questions];
-        let q= { ...qs[index] };
+        let q = { ...qs[index] };
         q.options.push(answer);
         qs[index] = q;
+        setQuestions(qs);
+    }
+
+    const removeQuestionAnswer = (q_index) => {
+        let qs = [...questions];
+        let q = { ...qs[q_index] };
+        q.options.splice(q.options.length - 1, 1);
+        qs[q_index] = q;
         setQuestions(qs);
     }
 
@@ -124,9 +144,15 @@ export const Profile = () => {
         setQuestions(qs);
     }
 
+    const removeQuestion = () => {
+        let qs = [...questions];
+        qs.pop();
+        setQuestions(qs);
+    }
+
     const renderModal = modal => {
         return (
-            <Modal show={modal}>
+            <Modal size="lg" show={modal}>
                 <Modal.Header>
                     <h2>Создать квиз</h2>
                 </Modal.Header>
@@ -156,8 +182,15 @@ export const Profile = () => {
                                 >
                                     Добавить ответ
                                 </Button>
+                                <Button
+                                    onClick={() => removeQuestionAnswer(q_index)}
+                                    className="ml-2 mt-2"
+                                    variant="outline-danger"
+                                >
+                                    Удалить ответ
+                                </Button>
                                 {question.options.map((_, a_index) => {
-                                    return <div className="ml-2 d-flex">
+                                    return <div className="ml-2 mt-2 d-flex">
                                         <FormControl
                                             key={`${q_index}${a_index}`}
                                             placeholder="Ответ"
@@ -180,11 +213,19 @@ export const Profile = () => {
                     <Modal.Footer>
                         <Button onClick={() => { setModal(false); setQuestions([]); }}>Отмена</Button>
                         <Button
+                            onClick={() => removeQuestion()}
+                            className="ml-2"
+                            variant="outline-danger"
+                            hidden={questions.length === 0}
+                        >
+                            Удалить вопрос
+                        </Button>
+                        <Button
                             onClick={() => setQuestions(questions => [...questions, { options: [] }])}
                         >
                             Добавить вопрос
                         </Button>
-                        {questions.length > 0 ? <Button variant="success" type="submit">Создать квиз</Button> : <></>}
+                        <Button hidden={questions.length === 0} variant="success" type="submit">Создать квиз</Button>
                     </Modal.Footer>
                 </Form>
             </Modal>

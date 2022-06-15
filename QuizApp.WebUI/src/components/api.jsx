@@ -103,7 +103,7 @@ export const isQuizCompletedByCurrentUser = async quizId => {
     }
 }
 
-export const getQuizScore = async quizId => {
+export const getCurrentQuizScore = async quizId => {
     try {
         const jwt = getJwt();
         const response = await axios.get(`${baseAddress}/users/get-result-for-current-user?quizid=${quizId}`, {
@@ -111,6 +111,24 @@ export const getQuizScore = async quizId => {
                 Authorization: `Bearer ${jwt}`
             }
         });
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export const getUsersByPassedQuizz = async quizid => {
+    try{
+        const response = await axios.get(`${baseAddress}/quizzes/get-passed-users-by-quizid?quizid=${quizid}`);
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export const getQuizResultByUsername = async (username, quizid) => {
+    try {
+        const response = await axios.get(`${baseAddress}/quizzes/get-result-by-username?username=${username}&quizid=${quizid}`);
         return response;
     } catch (error) {
         console.error(error);

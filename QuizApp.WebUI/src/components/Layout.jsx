@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Form, Button, Navbar, Nav, FormControl, Modal, NavDropdown } from "react-bootstrap";
+import { Container, Form, Button, Navbar, Nav, FormControl, Modal, NavDropdown, Image } from "react-bootstrap";
 import { login, register, logout, getCurrentUser } from "./api";
 
 export const Layout = (props) => {
@@ -142,9 +142,10 @@ export const Layout = (props) => {
     }
 
     return (
-        <Navbar fixed="top" bg="light" expand="lg">
+        <Navbar fixed="top" expand="lg" style={{ backgroundColor: '#ECE1E1', fontFamily: 'Inter', fontWeight: 600 }}>
             <Container fluid>
-                <Navbar.Brand href="/">Главная страница</Navbar.Brand>
+                <Image style={{ height: '66px', width: '69px' }} src="../images/logo.png" alt="logo" />
+                <Navbar.Brand href="/">Quizzes</Navbar.Brand>
                 <Navbar.Collapse id="navbarScroll" className="d-flex justify-content-end">
                     <Nav
                         className="me-auto my-2 my-lg-0"
@@ -161,7 +162,7 @@ export const Layout = (props) => {
                                 aria-label="Search"
                                 name="search"
                             />
-                            <Button onClick={() => filterQuizzes()} variant="outline-success">Поиск</Button>
+                            <Image style={{ height: '21px', width: '22px', cursor: 'pointer', marginTop: '3%', marginLeft: '1%' }} onClick={() => filterQuizzes()} src="../images/search.png" alt="search" />
                         </Form>
                     </Nav>
                 </Navbar.Collapse>

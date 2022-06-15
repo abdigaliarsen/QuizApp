@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Alert } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
-import { getQuiz, getQuizScore, isAuthenticated, isQuizCompletedByCurrentUser } from './api';
+import { getQuiz, getCurrentQuizScore, isAuthenticated, isQuizCompletedByCurrentUser } from './api';
 
 export const Quiz = () => {
     const [quiz, setQuiz] = useState({});
@@ -19,7 +19,7 @@ export const Quiz = () => {
 
     useEffect(() => {
         if (isCompleted === true)
-            getQuizScore(quizid).then(res => setQuizResult(res.data));
+            getCurrentQuizScore(quizid).then(res => setQuizResult(res.data));
     }, [quizid, isCompleted])
 
     let quizAccess = <></>;
